@@ -4,10 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"gorecta-cms/internal/models"
-	"gorecta-cms/pkg/database"
-
 	"github.com/gin-gonic/gin"
+	"github.com/truncgil/gorecta/internal/models"
+	"github.com/truncgil/gorecta/pkg/database"
 )
 
 type CreatePostRequest struct {

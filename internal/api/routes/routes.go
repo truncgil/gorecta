@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/gorecta-cms/internal/api/handlers"
-	"github.com/yourusername/gorecta-cms/internal/api/middleware"
+	"github.com/truncgil/gorecta/internal/api/handlers"
+	"github.com/truncgil/gorecta/internal/api/middleware"
 )
 
 // SetupRoutes configures all the routes for our application

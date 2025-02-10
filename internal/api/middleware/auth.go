@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/gorecta-cms/pkg/auth"
+	"github.com/truncgil/gorecta/pkg/auth"
 )
 
 // AuthMiddleware verifies the JWT token in the Authorization header

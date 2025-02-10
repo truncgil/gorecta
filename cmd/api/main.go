@@ -7,9 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/yourusername/gorecta-cms/internal/api/routes"
-	"github.com/yourusername/gorecta-cms/internal/models"
-	"github.com/yourusername/gorecta-cms/pkg/database"
+	"github.com/truncgil/gorecta/internal/api/routes"
+	"github.com/truncgil/gorecta/internal/models"
+	"github.com/truncgil/gorecta/pkg/database"
 )
 
 func init() {

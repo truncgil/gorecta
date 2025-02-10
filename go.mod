@@ -1,4 +1,4 @@
-module github.com/yourusername/gorecta-cms
+module github.com/truncgil/gorecta
 
 go 1.21
 

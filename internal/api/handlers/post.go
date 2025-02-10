@@ -19,7 +19,18 @@ type CreatePostRequest struct {
 	Published   bool   `json:"published"`
 }
 
-// CreatePost creates a new post
+// @Summary Create a new post
+// @Description Create a new blog post with the provided details
+// @Tags posts
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body CreatePostRequest true "Post creation details"
+// @Success 200 {object} models.Post
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /posts [post]
 func CreatePost(c *gin.Context) {
 	var req CreatePostRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -61,7 +72,15 @@ func CreatePost(c *gin.Context) {
 	c.JSON(http.StatusCreated, post)
 }
 
-// GetPosts returns a list of posts
+// @Summary Get all posts
+// @Description Get a list of all blog posts
+// @Tags posts
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {array} models.Post
+// @Failure 500 {object} map[string]string
+// @Router /posts [get]
 func GetPosts(c *gin.Context) {
 	var posts []models.Post
 	db := database.GetDB()
@@ -85,7 +104,17 @@ func GetPosts(c *gin.Context) {
 	c.JSON(http.StatusOK, posts)
 }
 
-// GetPost returns a single post by ID
+// @Summary Get a post by ID
+// @Description Get a specific blog post by its ID
+// @Tags posts
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Post ID"
+// @Success 200 {object} models.Post
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /posts/{id} [get]
 func GetPost(c *gin.Context) {
 	id := c.Param("id")
 	var post models.Post
@@ -98,7 +127,20 @@ func GetPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// UpdatePost updates a post
+// @Summary Update a post
+// @Description Update an existing blog post
+// @Tags posts
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Post ID"
+// @Param request body CreatePostRequest true "Post update details"
+// @Success 200 {object} models.Post
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /posts/{id} [put]
 func UpdatePost(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -149,7 +191,18 @@ func UpdatePost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// DeletePost deletes a post
+// @Summary Delete a post
+// @Description Delete a blog post by its ID
+// @Tags posts
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Post ID"
+// @Success 200 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /posts/{id} [delete]
 func DeletePost(c *gin.Context) {
 	id := c.Param("id")
 	var post models.Post

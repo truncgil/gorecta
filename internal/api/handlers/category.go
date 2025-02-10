@@ -15,7 +15,18 @@ type CreateCategoryRequest struct {
 	Description string `json:"description"`
 }
 
-// CreateCategory creates a new category
+// @Summary Create a new category
+// @Description Create a new category with the provided details
+// @Tags categories
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body CreateCategoryRequest true "Category creation details"
+// @Success 200 {object} models.Category
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /categories [post]
 func CreateCategory(c *gin.Context) {
 	var req CreateCategoryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -37,7 +48,15 @@ func CreateCategory(c *gin.Context) {
 	c.JSON(http.StatusCreated, category)
 }
 
-// GetCategories returns a list of categories
+// @Summary Get all categories
+// @Description Get a list of all categories
+// @Tags categories
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {array} models.Category
+// @Failure 500 {object} map[string]string
+// @Router /categories [get]
 func GetCategories(c *gin.Context) {
 	var categories []models.Category
 	if err := database.GetDB().Find(&categories).Error; err != nil {
@@ -48,7 +67,17 @@ func GetCategories(c *gin.Context) {
 	c.JSON(http.StatusOK, categories)
 }
 
-// GetCategory returns a single category by ID
+// @Summary Get a category by ID
+// @Description Get a specific category by its ID
+// @Tags categories
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Category ID"
+// @Success 200 {object} models.Category
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /categories/{id} [get]
 func GetCategory(c *gin.Context) {
 	id := c.Param("id")
 	var category models.Category
@@ -61,7 +90,20 @@ func GetCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, category)
 }
 
-// UpdateCategory updates a category
+// @Summary Update a category
+// @Description Update an existing category
+// @Tags categories
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Category ID"
+// @Param request body CreateCategoryRequest true "Category update details"
+// @Success 200 {object} models.Category
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /categories/{id} [put]
 func UpdateCategory(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -93,7 +135,18 @@ func UpdateCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, category)
 }
 
-// DeleteCategory deletes a category
+// @Summary Delete a category
+// @Description Delete a category by its ID
+// @Tags categories
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Category ID"
+// @Success 200 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /categories/{id} [delete]
 func DeleteCategory(c *gin.Context) {
 	id := c.Param("id")
 	var category models.Category

@@ -2,12 +2,24 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/truncgil/gorecta/docs"
 	"github.com/truncgil/gorecta/internal/api/handlers"
 	"github.com/truncgil/gorecta/internal/api/middleware"
 )
 
 // SetupRoutes configures all the routes for our application
 func SetupRoutes(router *gin.Engine) {
+	// Swagger documentation
+	docs.SwaggerInfo.Title = "GoRecta CMS API"
+	docs.SwaggerInfo.Description = "A modern and robust Content Management System API built with Go"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// API v1 group
 	v1 := router.Group("/api/v1")
 

@@ -6,6 +6,9 @@ WORKDIR /app
 # Install git and build tools
 RUN apk add --no-cache git gcc musl-dev
 
+# Install Swagger
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
 # Copy go mod and sum files
 COPY go.mod ./
 
@@ -15,6 +18,9 @@ RUN go mod verify
 
 # Copy the source code
 COPY . .
+
+# Generate Swagger documentation
+RUN /go/bin/swag init -g cmd/api/main.go
 
 # Ensure all modules are downloaded
 RUN go mod download all
@@ -34,6 +40,7 @@ RUN apk --no-cache add ca-certificates
 # Copy binary and config from builder
 COPY --from=builder /app/main .
 COPY --from=builder /app/.env .
+COPY --from=builder /app/docs ./docs
 
 # Make the binary executable
 RUN chmod +x main

@@ -32,14 +32,14 @@ func SetupRoutes(router *gin.Engine) {
 			posts.DELETE("/:id", middleware.RoleMiddleware("admin"), handlers.DeletePost)
 		}
 
-		// Categories routes (to be implemented)
+		// Categories routes
 		categories := protected.Group("/categories")
 		{
-			categories.GET("")
-			categories.POST("", middleware.RoleMiddleware("admin"))
-			categories.GET("/:id")
-			categories.PUT("/:id", middleware.RoleMiddleware("admin"))
-			categories.DELETE("/:id", middleware.RoleMiddleware("admin"))
+			categories.GET("", handlers.GetCategories)
+			categories.POST("", middleware.RoleMiddleware("admin"), handlers.CreateCategory)
+			categories.GET("/:id", handlers.GetCategory)
+			categories.PUT("/:id", middleware.RoleMiddleware("admin"), handlers.UpdateCategory)
+			categories.DELETE("/:id", middleware.RoleMiddleware("admin"), handlers.DeleteCategory)
 		}
 
 		// Tags routes (to be implemented)

@@ -7,11 +7,22 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/truncgil/gorecta/docs"
 	"github.com/truncgil/gorecta/internal/api/routes"
 	"github.com/truncgil/gorecta/internal/models"
 	"github.com/truncgil/gorecta/pkg/database"
 )
 
+// @title GoRecta CMS API
+// @version 1.0
+// @description A modern and robust Content Management System API built with Go
+// @host localhost:8080
+// @BasePath /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func init() {
 	if err := godotenv.Load(); err != nil {
 		log.Printf("Warning: .env file not found")
@@ -56,6 +67,15 @@ func main() {
 
 		c.Next()
 	})
+
+	// Swagger documentation
+	docs.SwaggerInfo.Title = "GoRecta CMS API"
+	docs.SwaggerInfo.Description = "A modern and robust Content Management System API built with Go"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Setup routes
 	routes.SetupRoutes(router)

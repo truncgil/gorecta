@@ -9,8 +9,13 @@ RUN apk add --no-cache git gcc musl-dev
 # Install Swagger
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 
+# Set GOPATH and PATH
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:$PATH
+
 # Copy go mod and sum files
 COPY go.mod ./
+COPY go.sum ./
 
 # Download dependencies and verify
 RUN go mod download
@@ -20,7 +25,7 @@ RUN go mod verify
 COPY . .
 
 # Generate Swagger documentation
-RUN /go/bin/swag init -g cmd/api/main.go
+RUN swag init -g cmd/api/main.go -o docs --parseInternal --parseDependency
 
 # Ensure all modules are downloaded
 RUN go mod download all
@@ -37,12 +42,14 @@ WORKDIR /app
 # Install CA certificates
 RUN apk --no-cache add ca-certificates
 
-# Copy binary and config from builder
+# Copy binary and necessary files from builder
 COPY --from=builder /app/main .
 COPY --from=builder /app/.env .
 COPY --from=builder /app/docs ./docs
+COPY --from=builder /app/go.mod .
+COPY --from=builder /app/go.sum .
 
-# Make the binary executable
+# Make binary executable
 RUN chmod +x main
 
 # Expose port 8080

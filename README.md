@@ -115,7 +115,7 @@ docker-compose up --build
 
 The application will be available at:
 - API: http://localhost:8080
-- Swagger Documentation: http://localhost:8080/docs/index.html
+- Swagger Documentation: http://localhost:8080/swagger/index.html
 
 ## Environment Variables
 
